@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^studycatchesird\.Rproj$
 ^\.Rproj\.user$
 ^devtools_history\.R$
