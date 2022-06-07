@@ -50,6 +50,11 @@ pie_chart_2 = function(dimension, unit = c("MT","MTNO","Tons","t"), first, secon
     mutate(ypos_ligne = cumsum(pourcentage)- 0.5*pourcentage ) %>%
     distinct()
 
+# -------------------------------------------------------------------------
+
+
+
+
   set.seed(2) # For reproducibility of random color vector
   number <- length(unique(unlist(as.character(c(provisoire_i$class, provisoire_t$class)))))
   pal <- brewer.pal(number,"Set1")
