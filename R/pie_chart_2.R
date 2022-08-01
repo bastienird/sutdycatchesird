@@ -4,8 +4,8 @@
 #' @param first
 #' @param second
 #' @param topn
-#' @param titre_premier
-#' @param titre_second
+#' @param titre_1
+#' @param titre_2
 #'
 #' @import cowplot
 #' @import ggplot2
