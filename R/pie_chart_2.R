@@ -27,7 +27,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_premier = titre
   r <- deparse(substitute(dimension))
 
   colnames <- dplyr::enquo(dimension)
-  if(exists(titre_1){
+  if(exists(titre_1)){
   name1 <- dplyr::enquo(titre_1)
   name2 <- dplyr::enquo(titre_2)
   }
