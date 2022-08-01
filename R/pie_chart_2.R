@@ -27,9 +27,12 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_premier = titre
   r <- deparse(substitute(dimension))
 
   colnames <- dplyr::enquo(dimension)
-
+  if(exists(titre_1){
   name1 <- dplyr::enquo(titre_1)
   name2 <- dplyr::enquo(titre_2)
+  }
+  name1 <- as.character(substitute(first))
+  name2 <- as.character(substitute(second))
   provisoire_i <-na.omit(first) %>%  dplyr::group_by(!!colnames, unit
   )  %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% dplyr::group_by(unit) %>%
     dplyr::arrange(desc(value)) %>%   dplyr::mutate(id = row_number())%>%
