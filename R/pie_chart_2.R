@@ -16,7 +16,7 @@
 #' @examples
 #'
 pie_chart_2 = function(dimension, first, second, topn = 5) {
-  library(dplyr)
+
   if(any(first$unit == "MTNO")) first[first$unit == "MTNO", ]$unit <- "MT"
   if(any(first$unit == "NOMT")) first[first$unit == "NOMT", ]$unit <- "NO"
   if(any(second$unit == "MTNO")) second[second$unit == "MTNO", ]$unit <- "MT"
