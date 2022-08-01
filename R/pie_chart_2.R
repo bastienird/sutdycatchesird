@@ -1,8 +1,11 @@
 #' Title
 #'
-#' @param x
+#' @param dimension
 #' @param first
 #' @param second
+#' @param topn
+#' @param titre_premier
+#' @param titre_second
 #'
 #' @import cowplot
 #' @import ggplot2
