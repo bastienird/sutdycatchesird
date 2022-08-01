@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-pie_chart_2 = function(dimension, first, second, topn = 5) {
+pie_chart_2 = function(dimension, first, second, topn = 5, titre_premier = titre_1, titre_second = titre_2) {
 
   if(any(first$unit == "MTNO")) first[first$unit == "MTNO", ]$unit <- "MT"
   if(any(first$unit == "NOMT")) first[first$unit == "NOMT", ]$unit <- "NO"
