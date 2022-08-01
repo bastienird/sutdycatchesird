@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-pie_chart_2 = function(dimension, first, second, topn = 5, titre_premier = titre_1, titre_second = titre_2) {
+pie_chart_2 = function(dimension, first, second, topn = 5, titre_premier = "first", titre_second = "second" ) {
 
   if(any(first$unit == "MTNO")) first[first$unit == "MTNO", ]$unit <- "MT"
   if(any(first$unit == "NOMT")) first[first$unit == "NOMT", ]$unit <- "NO"
@@ -27,12 +27,14 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_premier = titre
   r <- deparse(substitute(dimension))
 
   colnames <- dplyr::enquo(dimension)
-  if(exists(titre_1)){
-  name1 <- dplyr::enquo(titre_1)
-  name2 <- dplyr::enquo(titre_2)
-  }
-  name1 <- as.character(substitute(first))
-  name2 <- as.character(substitute(second))
+  if(titre_premier =="first" & titre_second == "second"){
+    name1 <- as.character(substitute(first))
+    name2 <- as.character(substitute(second))
+
+  } else {
+  name1 <- dplyr::enquo(titre_premier)
+  name2 <- dplyr::enquo(titre_second)}
+
   provisoire_i <-na.omit(first) %>%  dplyr::group_by(!!colnames, unit
   )  %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% dplyr::group_by(unit) %>%
     dplyr::arrange(desc(value)) %>%   dplyr::mutate(id = row_number())%>%
