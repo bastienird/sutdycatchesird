@@ -78,8 +78,11 @@ if (!is.null(second)){
   # names(myColors) <- levels(dat$grp)
   # set.seed(2)
   # print(pal)
+  if !(is.null(second)){
   pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class, provisoire_t$class)))))
   # print(pal)
+  }else  {  pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class)))))
+}
 
 
   ggplot_i <<- ggplot(provisoire_i%>% dplyr::filter(!is.na(class))) +
