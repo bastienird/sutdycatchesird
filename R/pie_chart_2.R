@@ -67,7 +67,11 @@ if (!is.null(second)){
   set.seed(2) # For reproducibility of random color vector
   # print(c(provisoire_i$class, provisoire_t$class))
   # print(unique(unlist(as.character(c(provisoire_i$class, provisoire_t$class)))))
+  if (!(is.null(second))){
+
   number <- length(unique(unlist(as.character(c(provisoire_i$class, provisoire_t$class)))))
+  }else {number <- length(unique(unlist(as.character(c(provisoire_i$class)))))}
+
   # print(number)
   pal <- brewer.pal(number,"Paired")
   #   display.brewer.all(n=NULL, type="all", select=NULL, exact.n=TRUE,
@@ -78,11 +82,10 @@ if (!is.null(second)){
   # names(myColors) <- levels(dat$grp)
   # set.seed(2)
   # print(pal)
-  if !(is.null(second)){
+  if (!(is.null(second))){
   pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class, provisoire_t$class)))))
   # print(pal)
-  }else  {  pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class)))))
-}
+  }else  {  pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class)))))}
 
 
   ggplot_i <<- ggplot(provisoire_i%>% dplyr::filter(!is.na(class))) +
