@@ -18,7 +18,7 @@
 #'
 #' @examples
 #'
-pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", titre_2 = "second" ) {
+pie_chart_2 = function(dimension, first, second = NULL, topn = 5, titre_1 = "first", titre_2 = "second" ) {
 
   if(any(first$unit == "MTNO")) first[first$unit == "MTNO", ]$unit <- "MT"
   if(any(first$unit == "NOMT")) first[first$unit == "NOMT", ]$unit <- "NO"
@@ -47,8 +47,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
     dplyr::distinct() %>% dplyr::filter(!is.na(class))
 
 
-
-
+if (!is.null(second)){
   provisoire_t <- na.omit(second) %>%  dplyr::group_by(!!colnames, unit)%>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% dplyr::group_by(unit) %>%
     dplyr::arrange(desc(value)) %>%   dplyr::mutate(id = row_number())%>%
     dplyr::mutate(class = as.factor(ifelse(id<topn,!!colnames,"Others"))) %>%
@@ -59,7 +58,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
     dplyr::mutate(pourcentage = prop.table(value)*100)%>%
     dplyr::mutate(labels = paste0(pourcentage," ",  " % "))%>% dplyr::arrange(desc(class))%>%
     dplyr::mutate(ypos_ligne = cumsum(pourcentage)- 0.5*pourcentage ) %>%
-    dplyr::distinct()%>% dplyr::filter(!is.na(class))
+    dplyr::distinct()%>% dplyr::filter(!is.na(class))}
 
   set.seed(2) # For reproducibility of random color vector
   # print(c(provisoire_i$class, provisoire_t$class))
@@ -98,6 +97,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
   # print("ggplot_i")
   legend <- cowplot::get_legend(ggplot_i+
                                   scale_fill_discrete(na.translate = F))
+  if (!is.null(second)){
 
   ggplot_t <<- ggplot(provisoire_t%>% dplyr::filter(!is.na(class))) +
     aes(
@@ -114,7 +114,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
     theme(axis.ticks.x = element_blank(),
           axis.text.x = element_blank())+
     labs(x = "", y="")+ scale_fill_manual(values=pal)+ theme(legend.position = "none")+facet_wrap("unit")+
-    scale_fill_discrete(na.translate = F)
+    scale_fill_discrete(na.translate = F)}
 
   title <- ggdraw() +
     draw_label(
@@ -128,6 +128,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
       # so title is aligned with left edge of first plot
       plot.margin = margin(0, 0, 0, 7)
     )
+  if (!is.null(second)){
 
 
   graph <<- plot_grid(ggplot_i+ theme(legend.position = "none"), ggplot_t, nrow = 2,labels = c( gsub('"','',gsub('~"','',deparse(substitute(name1)))),gsub('"','',gsub('~"','',deparse(substitute(name2))))),
@@ -155,6 +156,11 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
               rel_heights = c(0.5, 1))+
       theme(plot.background = element_rect(color = "black"))
   }
+  }
+  if (is.null(second)){   plot <- plot_grid(title,ggplot_i,nrow = 2,
+                                            # rel_heights values control vertical title margins
+                                            rel_heights = c(0.5, 1))+
+    theme(plot.background = element_rect(color = "black"))}
   plot
 
 
