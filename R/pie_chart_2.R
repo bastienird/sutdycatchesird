@@ -133,7 +133,7 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
   graph <<- plot_grid(ggplot_i+ theme(legend.position = "none"), ggplot_t, nrow = 2,labels = c( gsub('"','',gsub('~"','',deparse(substitute(name1)))),gsub('"','',gsub('~"','',deparse(substitute(name2))))),
                       label_size = 10, vjust = 1.3, label_x = c(0,0), label_y = 1.025, axis = "l", align = "v")
 
-  plot_grid(title, nrow=2,plot_grid(graph,legend,ncol = 2),
+  plot <-  plot_grid(title, nrow=2,plot_grid(graph,legend,ncol = 2),
             # rel_heights values control vertical title margins
             rel_heights = c(0.1, 1))+
     theme(plot.background = element_rect(color = "black"))
@@ -150,11 +150,12 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
         # so title is aligned with left edge of first plot
         plot.margin = margin(0, 0, 0, 7)
       )
-    plot_grid(title,ggplot_i,nrow = 2,
+    plot <- plot_grid(title,ggplot_i,nrow = 2,
               # rel_heights values control vertical title margins
               rel_heights = c(0.5, 1))+
       theme(plot.background = element_rect(color = "black"))
   }
+  plot
 
 
 }
