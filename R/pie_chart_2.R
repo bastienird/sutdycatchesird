@@ -22,10 +22,14 @@ pie_chart_2 = function(dimension, first, second = NULL, topn = 5, titre_1 = "fir
 
   if(any(first$unit == "MTNO")) first[first$unit == "MTNO", ]$unit <- "MT"
   if(any(first$unit == "NOMT")) first[first$unit == "NOMT", ]$unit <- "NO"
+  if (!is.null(second)){
+
   if(any(second$unit == "MTNO")) second[second$unit == "MTNO", ]$unit <- "MT"
   if(any(second$unit == "NOMT")) second[second$unit == "NOMT", ]$unit <- "NO"
-  first[is.na(first)] <- "NA"
   second[is.na(second)] <- "NA"
+
+  }
+  first[is.na(first)] <- "NA"
 
   r <- deparse(substitute(dimension))
 
