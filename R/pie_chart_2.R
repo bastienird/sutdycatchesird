@@ -137,6 +137,24 @@ pie_chart_2 = function(dimension, first, second, topn = 5, titre_1 = "first", ti
             # rel_heights values control vertical title margins
             rel_heights = c(0.1, 1))+
     theme(plot.background = element_rect(color = "black"))
+  if (sum(!(round(provisoire_i$pourcentage) == round(provisoire_t$pourcentage))) == 0){ #checking if all the value are the same (rounded for the pie plot so you don't print several time the same)
+    title <- ggdraw() +
+      draw_label(
+        paste0("Distribution in value for the dimension : ",r, " \n (same to the nearest rounding for both datasets)"),
+        fontface = 'bold',
+        x = 0,
+        hjust = 0
+      ) +
+      theme(
+        # add margin on the left of the drawing canvas,
+        # so title is aligned with left edge of first plot
+        plot.margin = margin(0, 0, 0, 7)
+      )
+    plot_grid(title,ggplot_i,nrow = 2,
+              # rel_heights values control vertical title margins
+              rel_heights = c(0.5, 1))+
+      theme(plot.background = element_rect(color = "black"))
+  }
 
 
 }
