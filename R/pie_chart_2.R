@@ -86,7 +86,24 @@ if (!is.null(second)){
   pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class, provisoire_t$class)))))
   # print(pal)
   }else  {  pal = setNames(pal, unique(unlist(as.character(c(provisoire_i$class)))))}
-
+to_get_legend <- ggplot(rbind(provisoire_i%>% dplyr::filter(!is.na(class)), provisoire_t %>% dplyr::filter(!is.na(class)))) +
+  aes(
+    x = "",
+    fill = class,
+    group = class,
+    weight = pourcentage
+  ) +
+  geom_bar(position = "fill") +
+  scale_fill_hue(direction = 1) +
+  scale_color_hue(direction = 1) +
+  theme_minimal()+ coord_polar("y", start=0)+ geom_text(first = (provisoire_i %>% dplyr::filter(!is.na(class))%>%dplyr::mutate_if(is.numeric, round)), size = 3,
+                                                        aes( x = 1 ,y = ypos_ligne/100, label = paste0(round(pourcentage),"%")), color = "black")+
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())+
+  labs(x = "", y="")+ scale_fill_manual(values=pal)+ guides(fill=guide_legend(title=toupper(r)))+facet_wrap("unit")+
+  scale_fill_discrete(na.translate = F)
+legend <- cowplot::get_legend(to_get_legend+
+                                scale_fill_discrete(na.translate = F))
 
   ggplot_i <<- ggplot(provisoire_i%>% dplyr::filter(!is.na(class))) +
     aes(
@@ -103,10 +120,10 @@ if (!is.null(second)){
     theme(axis.ticks.x = element_blank(),
           axis.text.x = element_blank())+
     labs(x = "", y="")+ scale_fill_manual(values=pal)+ guides(fill=guide_legend(title=toupper(r)))+facet_wrap("unit")+
-    scale_fill_discrete(na.translate = F)
+    scale_fill_discrete(na.translate = F)+ theme(legend.position = "none")
   # print("ggplot_i")
-  legend <- cowplot::get_legend(ggplot_i+
-                                  scale_fill_discrete(na.translate = F))
+  # legend <- cowplot::get_legend(ggplot_i+
+  #                                 scale_fill_discrete(na.translate = F))
   if (!is.null(second)){
 
   ggplot_t <<- ggplot(provisoire_t%>% dplyr::filter(!is.na(class))) +
@@ -124,7 +141,8 @@ if (!is.null(second)){
     theme(axis.ticks.x = element_blank(),
           axis.text.x = element_blank())+
     labs(x = "", y="")+ scale_fill_manual(values=pal)+ theme(legend.position = "none")+facet_wrap("unit")+
-    scale_fill_discrete(na.translate = F)}
+    scale_fill_discrete(na.translate = F)
+  }
 
   title <- ggdraw() +
     draw_label(
