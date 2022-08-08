@@ -32,7 +32,7 @@ pie_chart_2 = function(dimension, first, second = NULL, topn = 4, titre_1 = "fir
   first[is.na(first)] <- "NA"
 
   r <- deparse(substitute(dimension))
-  if(r == "fishingfleet"){topn = 6}
+  if(r == "source_authority"){topn = 6}
   colnames <- dplyr::enquo(dimension)
 
   name1 <- dplyr::enquo(titre_1)
