@@ -18,7 +18,7 @@
 #'
 #' @examples
 #'
-pie_chart_2 = function(dimension, first, second = NULL, topn = 5, titre_1 = "first", titre_2 = "second" ) {
+pie_chart_2 = function(dimension, first, second = NULL, topn = 4, titre_1 = "first", titre_2 = "second" ) {
 
   if(any(first$unit == "MTNO")) first[first$unit == "MTNO", ]$unit <- "MT"
   if(any(first$unit == "NOMT")) first[first$unit == "NOMT", ]$unit <- "NO"
@@ -101,7 +101,7 @@ if (!is.null(second)){
     theme(axis.ticks.x = element_blank(),
           axis.text.x = element_blank())+
     labs(x = "", y="")+ scale_fill_manual(values=pal)+ guides(fill=guide_legend(title=toupper(r)))+facet_wrap("unit")+
-    scale_fill_discrete(na.translate = F)+ theme(legend.position = "none")
+    scale_fill_discrete(na.translate = F)
   # print("ggplot_i")
   # legend <- cowplot::get_legend(ggplot_i+
   #                                 scale_fill_discrete(na.translate = F))
@@ -178,10 +178,10 @@ if (!is.null(second)){
       theme(plot.background = element_rect(color = "black"))
   }
   }
-  if (is.null(second)){   plot <- plot_grid(title,ggplot_i,nrow = 2,
-                                            # rel_heights values control vertical title margins
-                                            rel_heights = c(0.5, 1))+
-    theme(plot.background = element_rect(color = "black"))}
+  # if (is.null(second)){   plot <- plot_grid(title,ggplot_i,nrow = 2,
+  #                                           # rel_heights values control vertical title margins
+  #                                           rel_heights = c(0.5, 1))+
+  #   theme(plot.background = element_rect(color = "black"))}
   plot
 
 
