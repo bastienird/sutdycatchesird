@@ -172,7 +172,7 @@ if (!is.null(second)){
         # so title is aligned with left edge of first plot
         plot.margin = margin(0, 0, 0, 7)
       )
-    plot <- plot_grid(title,ggplot_i,nrow = 2,
+    ploting_map <- plot_grid(title,ggplot_i,nrow = 2,
               # rel_heights values control vertical title margins
               rel_heights = c(0.5, 1))+
       theme(plot.background = element_rect(color = "black"))
