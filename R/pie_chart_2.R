@@ -177,6 +177,13 @@ if (!is.null(second)){
               rel_heights = c(0.5, 1))+
       theme(plot.background = element_rect(color = "black"))
   }
+  } else {
+    graph <<- plot_grid(ggplot_i+ theme(legend.position = "none"),  nrow = 1,labels = c( gsub('"','',gsub('~"','',deparse(substitute(name1))))),
+                        label_size = 10, vjust = 1.3, label_x = c(0,0), label_y = 0.8, axis = "l", align = "v")
+    plot <-  plot_grid(title, nrow=2,plot_grid(graph,legend,ncol = 2),
+                       # rel_heights values control vertical title margins
+                       rel_heights = c(0.1, 1))+
+      theme(plot.background = element_rect(color = "black"))
   }
   # if (is.null(second)){   plot <- plot_grid(title,ggplot_i,nrow = 2,
   #                                           # rel_heights values control vertical title margins
