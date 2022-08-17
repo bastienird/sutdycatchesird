@@ -20,7 +20,7 @@
 #' @examples pie_chart_2("fishinfleet, init)
 #'
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
-                            titre_2 = "second")
+                       titre_2 = "second")
 {
   if (any(first$unit == "MTNO"))
     first[first$unit == "MTNO", ]$unit <- "MT"
@@ -34,18 +34,21 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
     second[is.na(second)] <- "NA"
   }
   first[is.na(first)] <- "NA"
-  r <- deparse(substitute(dimension))
+  if (deparse(substitute(dimension)) == "X[[i]]"){ #for sapply function bug
+    r <- dimension
+  }else { r <- deparse(substitute(dimension))}
+
   if (r == "source_authority") {
     topn = 6
   }
   if(gsub("\"","",r) == r){
     dimension <- r
   }
-  colnames <- dplyr::enquo(dimension)
+
   name1 <- dplyr::enquo(titre_1)
   name2 <- dplyr::enquo(titre_2)
   provisoire_i <- na.omit(first) %>% dplyr::group_by(dplyr::across(c(dimension,
-                                                              "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+                                                                     "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
     dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
     dplyr::mutate(id = row_number()) %>% dplyr::mutate(class = as.factor(ifelse(id <
                                                                                   topn,!!rlang::sym(dimension), "Others"))) %>% dplyr::group_by(class,
@@ -57,11 +60,11 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                                                                                       0.5 * pourcentage) %>% dplyr::distinct() %>% dplyr::filter(!is.na(class))
   if (!is.null(second)) {
     provisoire_t <- na.omit(second) %>% dplyr::group_by(across(c(dimension,
-                                                        "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+                                                                 "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
       dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
       dplyr::mutate(id = row_number()) %>% dplyr::mutate(class = as.factor(ifelse(id <
                                                                                     topn, !!rlang::sym(dimension), "Others"))) %>% dplyr::group_by(class,
-                                                                                                                                      unit) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+                                                                                                                                                   unit) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
       dplyr::ungroup() %>% dplyr::select(value, class,
                                          unit) %>% dplyr::group_by(unit) %>% dplyr::mutate(pourcentage = prop.table(value) *
                                                                                              100) %>% dplyr::mutate(labels = paste0(pourcentage,
