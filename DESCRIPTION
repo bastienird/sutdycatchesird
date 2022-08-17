@@ -17,5 +17,6 @@ Imports:
     dplyr,
     ggplot2,
     RColorBrewer,
-    scales
+    scales, 
+    rlang
 Encoding: UTF-8

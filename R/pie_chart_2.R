@@ -43,7 +43,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   colnames <- dplyr::enquo(dimension)
   name1 <- dplyr::enquo(titre_1)
   name2 <- dplyr::enquo(titre_2)
-  provisoire_i <- na.omit(first) %>% dplyr::group_by(across(c(dimension,
+  provisoire_i <- na.omit(first) %>% dplyr::group_by(dplyr::across(c(dimension,
                                                               "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
     dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
     dplyr::mutate(id = row_number()) %>% dplyr::mutate(class = as.factor(ifelse(id <
