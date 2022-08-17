@@ -39,7 +39,9 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   if (r == "source_authority") {
     topn = 6
   }
-  if(gsub("\"","",r) == r){dimension <- r}
+  if(gsub("\"","",r) == r){
+    dimension <- r
+  }
   colnames <- dplyr::enquo(dimension)
   name1 <- dplyr::enquo(titre_1)
   name2 <- dplyr::enquo(titre_2)
