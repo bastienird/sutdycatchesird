@@ -9,7 +9,6 @@
 #' @import scales
 #' @import RColorBrewer
 #' @import rlang
-#' @import renv
 #'
 #' @return
 #' @export

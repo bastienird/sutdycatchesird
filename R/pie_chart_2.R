@@ -13,7 +13,6 @@
 #' @import scales
 #' @import RColorBrewer
 #' @import rlang
-#' @import renv
 #'
 #' @return Several pie maps
 #' @export
