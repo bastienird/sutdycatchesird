@@ -102,7 +102,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
     to_get_legend <- ggplot(rbind(provisoire_i %>% dplyr::filter(!is.na(class)),
                                   provisoire_t %>% dplyr::filter(!is.na(class)))) +
       aes(x = "", fill = class, group = class, weight = pourcentage) +
-      geom_bar(position = "fill")
+      geom_bar(position = "fill")+ guides(fill = guide_legend(title = toupper(r)))
     legend <- cowplot::get_legend(to_get_legend + scale_fill_discrete(na.translate = F))
     ggplot_t <<- ggplot(provisoire_t %>% dplyr::filter(!is.na(class))) +
       aes(x = "", fill = class, group = class, weight = pourcentage) +
