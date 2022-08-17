@@ -12,6 +12,7 @@
 #' @import dplyr
 #' @import scales
 #' @import RColorBrewer
+#' @import rlang
 #'
 #' @return
 #' @export
@@ -37,8 +38,6 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   if (r == "source_authority") {
     topn = 6
   }
-  print(r)
-  print(class(r))
   if(gsub("\"","",r) == r){dimension <- r}
   colnames <- dplyr::enquo(dimension)
   name1 <- dplyr::enquo(titre_1)
