@@ -1,4 +1,24 @@
-pie_chart_2_test =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
+#' Title
+#'
+#' @param dimension
+#' @param first
+#' @param second
+#' @param topn
+#' @param titre_1
+#' @param titre_2
+#'
+#' @import cowplot
+#' @import ggplot2
+#' @import dplyr
+#' @import scales
+#' @import RColorBrewer
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                             titre_2 = "second")
 {
   if (any(first$unit == "MTNO"))
