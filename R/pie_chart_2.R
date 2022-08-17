@@ -54,11 +54,11 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                      " ", " % ")) %>% dplyr::arrange(desc(class)) %>% dplyr::mutate(ypos_ligne = cumsum(pourcentage) -
                                                                                                                                                       0.5 * pourcentage) %>% dplyr::distinct() %>% dplyr::filter(!is.na(class))
   if (!is.null(second)) {
-    provisoire_t <- na.omit(second) %>% dplyr::group_by(!!colnames,
-                                                        unit) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+    provisoire_t <- na.omit(second) %>% dplyr::group_by(across(c(dimension,
+                                                        "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
       dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
       dplyr::mutate(id = row_number()) %>% dplyr::mutate(class = as.factor(ifelse(id <
-                                                                                    topn, !!colnames, "Others"))) %>% dplyr::group_by(class,
+                                                                                    topn, !!rlang::sym(dimension), "Others"))) %>% dplyr::group_by(class,
                                                                                                                                       unit) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
       dplyr::ungroup() %>% dplyr::select(value, class,
                                          unit) %>% dplyr::group_by(unit) %>% dplyr::mutate(pourcentage = prop.table(value) *
