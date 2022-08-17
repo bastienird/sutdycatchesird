@@ -2,13 +2,33 @@
 % Please edit documentation in R/pie_chart_2.R
 \name{pie_chart_2}
 \alias{pie_chart_2}
-\title{Title}
+\title{pie_chart_2}
 \usage{
-pie_chart_2(dimension, unit = c("MT", "MTNO", "Tons", "t"), first, second)
+pie_chart_2(
+  dimension,
+  first,
+  second = NULL,
+  topn = 4,
+  titre_1 = "first",
+  titre_2 = "second"
+)
 }
 \arguments{
-\item{second}{}
+\item{dimension}{dimension for grouppiing}
+
+\item{first}{first table}
+
+\item{second}{second table}
+
+\item{topn}{number before groupping in Others}
+
+\item{titre_1}{name of first table}
+
+\item{titre_2}{name of second table}
+}
+\value{
+Several pie maps
 }
 \description{
-Title
+pie_chart_2
 }

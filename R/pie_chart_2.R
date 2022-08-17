@@ -1,11 +1,11 @@
-#' Title
+#'  pie_chart_2
 #'
-#' @param dimension
-#' @param first
-#' @param second
-#' @param topn
-#' @param titre_1
-#' @param titre_2
+#' @param dimension dimension for grouppiing
+#' @param first first table
+#' @param second second table
+#' @param topn number before groupping in Others
+#' @param titre_1 name of first table
+#' @param titre_2 name of second table
 #'
 #' @import cowplot
 #' @import ggplot2
@@ -13,11 +13,12 @@
 #' @import scales
 #' @import RColorBrewer
 #' @import rlang
+#' @import renv
 #'
-#' @return
+#' @return Several pie maps
 #' @export
 #'
-#' @examples
+#' @examples pie_chart_2("fishinfleet, init)
 #'
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                             titre_2 = "second")
