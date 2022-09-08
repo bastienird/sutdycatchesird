@@ -11,7 +11,8 @@ pie_chart_2(
   topn = 4,
   titre_1 = "first",
   titre_2 = "second",
-  title_yes_no = TRUE
+  title_yes_no = TRUE,
+  dataframe = FALSE
 )
 }
 \arguments{
