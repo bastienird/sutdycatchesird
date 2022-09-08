@@ -2,26 +2,20 @@
 % Please edit documentation in R/resume_knit_child.R
 \name{resume_knit_child}
 \alias{resume_knit_child}
-\title{pie_chart_2}
+\title{resume_knit_child}
 \usage{
 resume_knit_child(dimension, first, second = NULL)
 }
 \arguments{
-\item{dimension}{dimension for grouppiing}
+\item{dimension}{dimension for groupping}
 
 \item{first}{first table}
 
 \item{second}{second table}
-
-\item{topn}{number before groupping in Others}
-
-\item{titre_1}{name of first table}
-
-\item{titre_2}{name of second table}
 }
 \value{
-Several pie maps
+Knit_child of pie and table
 }
 \description{
-pie_chart_2
+resume_knit_child
 }

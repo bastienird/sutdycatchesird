@@ -1,26 +1,26 @@
-#'  pie_chart_2
+#'  resume_knit_child
 #'
-#' @param dimension dimension for grouppiing
+#' @param dimension dimension for groupping
 #' @param first first table
 #' @param second second table
-#' @param topn number before groupping in Others
-#' @param titre_1 name of first table
-#' @param titre_2 name of second table
 #'
-
 #' @import knitr
-
 #'
-#' @return Several pie maps
+#'
+#' @return Knit_child of pie and table
 #' @export
 #'
-#' @examples pie_chart_2("fishinfleet, init)
+#' @examples
+#'
 #'
 
-resume_knit_child <- function(dimension, first, second = NULL){
+resume_knit_child = function(dimension, first, second = NULL){
+  if (deparse(substitute(dimension)) == "X[[i]]"){ #for sapply function bug
+    r <- dimension
+  }else { r <- deparse(substitute(dimension))}
   knitr::knit_child(text = c(
-    "```{r results='asis', fig.cap = paste0('Distribution in value for the dimension : ',dimension))}",
-    "studycatchesird::pie_chart_2(test, first, second, title_yes_no = FALSE)",
+    "```{r results='asis', fig.cap = paste0('Distribution in value for the dimension : ',dimension)}",
+    "studycatchesird::pie_chart_2(dimension, first, second, title_yes_no = FALSE)",
     "```",
     "",
     "",
@@ -33,5 +33,5 @@ resume_knit_child <- function(dimension, first, second = NULL){
 
 
 
-  ))
+  ), envir = global_env())
 }

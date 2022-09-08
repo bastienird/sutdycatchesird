@@ -17,7 +17,8 @@
 #' @return Several pie maps
 #' @export
 #'
-#' @examples pie_chart_2("fishinfleet, init)
+#' @examples
+#'
 #'
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                        titre_2 = "second", title_yes_no = TRUE)
