@@ -18,5 +18,6 @@ Imports:
     ggplot2,
     RColorBrewer,
     scales, 
-    rlang
+    rlang, 
+    knitr
 Encoding: UTF-8

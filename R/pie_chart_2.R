@@ -20,7 +20,7 @@
 #' @examples pie_chart_2("fishinfleet, init)
 #'
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
-                       titre_2 = "second")
+                       titre_2 = "second", title_yes_no = TRUE)
 {
   if (any(first$unit == "MTNO"))
     first[first$unit == "MTNO", ]$unit <- "MT"
@@ -154,5 +154,6 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
     ploting_map <<- plot_grid(title, nrow = 2, plot_grid(graph,
                                                          legend, ncol = 2), rel_heights = c(0.1, 1)) + theme(plot.background = element_rect(color = "black"))
   }
+  if(!title_yes_no) {ploting_map <- ploting_map+title=element_blank()}
   ploting_map
 }
