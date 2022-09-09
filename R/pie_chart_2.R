@@ -169,7 +169,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
 
   }
   if(!title_yes_no){
-    if (sum(!(round(provisoire_i$pourcentage) == round(provisoire_t$pourcentage))) ==
+    if (exists("provisoire_t")) if(sum(!(round(provisoire_i$pourcentage) == round(provisoire_t$pourcentage))) ==
         0) {      title <- ggdraw() + draw_label(paste0("(same distribution to the nearest rounding for both datasets :\n",
                                                         gsub("\"", "", gsub("~\"",
                                                                             "", deparse(substitute(name1))))," and ", gsub("\"",
