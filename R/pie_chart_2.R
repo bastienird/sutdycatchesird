@@ -49,6 +49,11 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
 
   name1 <- dplyr::enquo(titre_1)
   name2 <- dplyr::enquo(titre_2)
+
+  all_class_i <- first %>% dplyr::group_by(across(c(dimension,
+                                                     "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0)
+
+
   provisoire_i <- na.omit(first) %>% dplyr::group_by(dplyr::across(c(dimension,
                                                                      "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
     dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
@@ -61,6 +66,8 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                      " ", " % ")) %>% dplyr::arrange(desc(class)) %>% dplyr::mutate(ypos_ligne = cumsum(pourcentage) -
                                                                                                                                                       0.5 * pourcentage) %>% dplyr::distinct() %>% dplyr::filter(!is.na(class))
   if (!is.null(second)) {
+    all_class_t <- second %>% dplyr::group_by(across(c(dimension,
+                                                       "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0)
     provisoire_t <- na.omit(second) %>% dplyr::group_by(across(c(dimension,
                                                                  "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
       dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
@@ -76,8 +83,8 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
       dplyr::filter(!is.na(class))
   }
   if(!is.null(second)){
-    disappearing_stratas <- anti_join(provisoire_i %>% select(class), provisoire_t%>% select(class))%>% distinct()
-    appearing_stratas <- anti_join(provisoire_t%>% select(class), provisoire_i%>% select(class)) %>% distinct()
+    disappearing_stratas <- anti_join(all_class_i %>% select(class), all_class_t%>% select(class))%>% distinct()
+    appearing_stratas <- anti_join(all_class_t%>% select(class), all_class_i%>% select(class)) %>% distinct()
     number_disappearing_stratas <- nrow(disappearing_stratas)
     number_appearing_stratas <- nrow(appearing_stratas)
     summary_apparition <- ggdraw()+draw_label(paste0("Number of appearing stratas : ", number_appearing_stratas), size = 10)
@@ -186,8 +193,8 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   if(exists("summary_apparition") & dataframe){
     df <- data.frame(' '= c("Stratas appearing","Stratas disappearing"),
                      'Number' = c(number_appearing_stratas,number_disappearing_stratas ),
-  'Detail' = c(toString(paste((appearing_stratas %>% select(class) %>% distinct())$class, sep = ";")),
-     toString(paste((disappearing_stratas %>% select(class) %>% distinct())$class, sep = ";"))),check.names = FALSE,fix.empty.names = FALSE)
+  'Detail' = c(toString(paste((appearing_stratas %>% select(class) %>% mutate(class = gsub(" ", "",class) %>% distinct()))$class, sep = ";")),
+     toString(paste((disappearing_stratas %>% select(class)%>% mutate(class = gsub(" ", "",class) %>% distinct()))$class, sep = ";"))),check.names = FALSE,fix.empty.names = FALSE)
     if(number_disappearing_stratas == 0 & number_appearing_stratas ==0){df <- df %>% select(-Detail)}
     list_df_plot <- list(plot = ploting_map, df =df)
   return(list_df_plot)
