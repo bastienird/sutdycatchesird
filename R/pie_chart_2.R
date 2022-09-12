@@ -186,8 +186,8 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   if(exists("summary_apparition") & dataframe){
     df <- data.frame(' '= c("Stratas appearing","Stratas disappearing"),
                      'Number' = c(number_appearing_stratas,number_disappearing_stratas ),
-  'Detail' = c(toString(paste((appearing_stratas %>% select(class) %>% distinct())$class, sep = ";")),
-     toString(paste((disappearing_stratas %>% select(class) %>% distinct())$class, sep = ";"))),check.names = FALSE,fix.empty.names = FALSE)
+  'Detail' = c(toString(paste((appearing_stratas %>% select(class) %>% mutate(class = gsub(" ", "",class)) %>% distinct())$class, sep = ";")),
+     toString(paste((disappearing_stratas %>% select(class)%>% mutate(class = gsub(" ", "",class)) %>% distinct())$class, sep = ";"))),check.names = FALSE,fix.empty.names = FALSE)
     if(number_disappearing_stratas == 0 & number_appearing_stratas ==0){df <- df %>% select(-Detail)}
     list_df_plot <- list(plot = ploting_map, df =df)
   return(list_df_plot)
