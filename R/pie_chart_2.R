@@ -158,9 +158,9 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
     if (sum(!(round(provisoire_i$pourcentage) == round(provisoire_t$pourcentage))) ==
         0) {
       title <- ggdraw() + draw_label(paste0("Distribution in value for the dimension : ",
-                                            r, "\n(same distribution to the nearest rounding for both datasets : ",
+                                            r, "\n(same distribution to the nearest rounding for both datasets : \n",
                                             gsub("\"", "", gsub("~\"",
-                                                                "", deparse(substitute(name1))))," and ", gsub("\"",
+                                                                "", deparse(substitute(name1))))," and \n", gsub("\"",
                                                                                                                "", gsub("~\"", "", deparse(substitute(name2)))),")"),
                                      fontface = "bold", x = 0, hjust = 0, vjust = 0.5, size = 13) + theme(plot.margin = margin(0,
                                                                                                                                0, 0, 7))
