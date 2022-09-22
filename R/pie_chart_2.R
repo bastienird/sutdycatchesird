@@ -51,9 +51,10 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   name2 <- dplyr::enquo(titre_2)
 
   all_class_i <- first %>% dplyr::group_by(across(c(dimension,
-                                                     "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0)
-
-
+                                                     "unit"))) %>%
+    dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0) %>% select(-value)
+  colnames(all_class_i) <- c("class", "unit")
+  all_class_i <- all_class_i %>% mutate(class = paste(class, unit, sep = " / "))
   provisoire_i <- na.omit(first) %>% dplyr::group_by(dplyr::across(c(dimension,
                                                                      "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
     dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
@@ -66,8 +67,11 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                      " ", " % ")) %>% dplyr::arrange(desc(class)) %>% dplyr::mutate(ypos_ligne = cumsum(pourcentage) -
                                                                                                                                                       0.5 * pourcentage) %>% dplyr::distinct() %>% dplyr::filter(!is.na(class))
   if (!is.null(second)) {
-    all_class_t <- second %>% dplyr::group_by(across(c(dimension,
-                                                       "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0)
+    all_class_t <- first %>% dplyr::group_by(across(c(dimension,
+                                                      "unit"))) %>%
+      dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0) %>% select(-value)
+    colnames(all_class_t) <- c("class", "unit")
+    all_class_t <- all_class_t %>% mutate(class = paste(class, unit, sep = " / "))
     provisoire_t <- na.omit(second) %>% dplyr::group_by(across(c(dimension,
                                                                  "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
       dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
@@ -193,8 +197,8 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   if(exists("summary_apparition") & dataframe){
     df <- data.frame(' '= c("Stratas appearing","Stratas disappearing"),
                      'Number' = c(number_appearing_stratas,number_disappearing_stratas ),
-  'Detail' = c(toString(paste((appearing_stratas %>% select(class) %>% mutate(class = gsub(" ", "",class) %>% distinct()))$class, sep = ";")),
-     toString(paste((disappearing_stratas %>% select(class)%>% mutate(class = gsub(" ", "",class) %>% distinct()))$class, sep = ";"))),check.names = FALSE,fix.empty.names = FALSE)
+  'Detail' = c(toString(paste((appearing_stratas %>% select(class) %>% mutate(class = gsub(" ", "",class)) %>% distinct())$class, sep = ";")),
+     toString(paste((disappearing_stratas %>% select(class)%>% mutate(class = gsub(" ", "",class)) %>% distinct())$class, sep = ";"))),check.names = FALSE,fix.empty.names = FALSE)
     if(number_disappearing_stratas == 0 & number_appearing_stratas ==0){df <- df %>% select(-Detail)}
     list_df_plot <- list(plot = ploting_map, df =df)
   return(list_df_plot)
