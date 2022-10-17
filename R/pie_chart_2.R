@@ -23,7 +23,9 @@
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                        titre_2 = "second", title_yes_no = TRUE, dataframe = FALSE)
 {
-
+  length_legend_colour <- length(unique(unlist(as.character(c(provisoire_i$class,    provisoire_t$class)))))
+  if(length_legend_colour>12){
+    stop(paste0("Too much stratas (",length_legend_colour,") , try with only one unit or change topn number"))}
   if (any(first$unit == "MTNO"))
     first[first$unit == "MTNO", ]$unit <- "MT"
   if (any(first$unit == "NOMT"))
