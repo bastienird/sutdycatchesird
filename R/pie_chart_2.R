@@ -23,9 +23,6 @@
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                        titre_2 = "second", title_yes_no = TRUE, dataframe = FALSE)
 {
-  length_legend_colour <- length(unique(unlist(as.character(c(provisoire_i$class,    provisoire_t$class)))))
-  if(length_legend_colour>12){
-    stop(paste0("Too much stratas (",length_legend_colour,") , try with only one unit or change topn number"))}
   if (any(first$unit == "MTNO"))
     first[first$unit == "MTNO", ]$unit <- "MT"
   if (any(first$unit == "NOMT"))
@@ -131,7 +128,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
       aes(x = "", fill = class, group = class, weight = pourcentage) +
       geom_bar(position = "fill")+ guides(fill = guide_legend(title = toupper(r)))
     legend <- cowplot::get_legend(to_get_legend + scale_fill_discrete(na.translate = F))
-    ggplot_t <<- ggplot(provisoire_t %>% dplyr::filter(!is.na(class))) +
+    ggplot_t <- ggplot(provisoire_t %>% dplyr::filter(!is.na(class))) +
       aes(x = "", fill = class, group = class, weight = pourcentage) +
       geom_bar(position = "fill") + scale_fill_hue(direction = 1) +
       scale_color_hue(direction = 1) + theme_minimal() +
