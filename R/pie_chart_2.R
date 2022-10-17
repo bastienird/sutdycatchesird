@@ -42,11 +42,9 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
     r <- dimension
   }else { r <- deparse(substitute(dimension))}
 
-  if (r == "source_authority") {
+  dimension <- gsub("\"", "", r)
+  if (dimension == "source_authority") {
     topn = 6
-  }
-  if(gsub("\"","",r) == r){
-    dimension <- r
   }
 
   name1 <- dplyr::enquo(titre_1)
