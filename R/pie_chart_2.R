@@ -23,17 +23,17 @@
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                        titre_2 = "second", title_yes_no = TRUE, dataframe = FALSE)
 {
-  if (any(first$unit == "MTNO"))
-    first[first$unit == "MTNO", ]$unit <- "MT"
-  if (any(first$unit == "NOMT"))
-    first[first$unit == "NOMT", ]$unit <- "NO"
-  if (!is.null(second)) {
-    if (any(second$unit == "MTNO"))
-      second[second$unit == "MTNO", ]$unit <- "MT"
-    if (any(second$unit == "NOMT"))
-      second[second$unit == "NOMT", ]$unit <- "NO"
-    second[is.na(second)] <- "NA"
-  }
+  # if (any(first$unit == "MTNO"))
+  #   first[first$unit == "MTNO", ]$unit <- "MT"
+  # if (any(first$unit == "NOMT"))
+  #   first[first$unit == "NOMT", ]$unit <- "NO"
+  # if (!is.null(second)) {
+  #   if (any(second$unit == "MTNO"))
+  #     second[second$unit == "MTNO", ]$unit <- "MT"
+  #   if (any(second$unit == "NOMT"))
+  #     second[second$unit == "NOMT", ]$unit <- "NO"
+  #   second[is.na(second)] <- "NA"
+  # }
   first[is.na(first)] <- "NA"
   if (deparse(substitute(dimension)) == "X[[i]]"){ #for sapply function bug
     r <- dimension
@@ -144,9 +144,13 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   else {
     legend <- cowplot::get_legend(ggplot_i + scale_fill_discrete(na.translate = F))
   }
+  if(title_yes_no){
   title <- ggdraw() + draw_label(paste0("Distribution in value for the dimension : ",
                                         r), fontface = "bold", x = 0, hjust = 0) + theme(plot.margin = margin(0,
                                                                                                               0, 0, 7))
+  }
+  else{
+    title <- ggdraw() + draw_label(" \n ")}
   if (!is.null(second)) {
     graph <- plot_grid(ggplot_i + theme(legend.position = "none"),
                        ggplot_t, nrow = 2, labels = c(gsub("\"", "", gsub("~\"",
@@ -176,7 +180,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                        align = "v")
 
   }
-  if(!title_yes_no){
+  if(title_yes_no){
     if (exists("provisoire_t")) if(sum(!(round(provisoire_i$pourcentage) == round(provisoire_t$pourcentage))) ==
         0) {      title <- ggdraw() + draw_label(paste0("(same distribution to the nearest rounding for both datasets :\n",
                                                         gsub("\"", "", gsub("~\"",
