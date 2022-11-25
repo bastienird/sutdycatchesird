@@ -6,6 +6,8 @@
 #' @param topn number before groupping in Others
 #' @param titre_1 name of first table
 #' @param titre_2 name of second table
+#' @param title_yes_no is title displayed
+#' @param dataframe dataframe as image
 #'
 #' @import cowplot
 #' @import ggplot2
@@ -23,17 +25,6 @@
 pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "first",
                        titre_2 = "second", title_yes_no = TRUE, dataframe = FALSE)
 {
-  # if (any(first$unit == "MTNO"))
-  #   first[first$unit == "MTNO", ]$unit <- "MT"
-  # if (any(first$unit == "NOMT"))
-  #   first[first$unit == "NOMT", ]$unit <- "NO"
-  # if (!is.null(second)) {
-  #   if (any(second$unit == "MTNO"))
-  #     second[second$unit == "MTNO", ]$unit <- "MT"
-  #   if (any(second$unit == "NOMT"))
-  #     second[second$unit == "NOMT", ]$unit <- "NO"
-  #   second[is.na(second)] <- "NA"
-  # }
   first[is.na(first)] <- "NA"
   if (deparse(substitute(dimension)) == "X[[i]]"){ #for sapply function bug
     r <- dimension

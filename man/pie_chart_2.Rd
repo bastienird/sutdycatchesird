@@ -27,6 +27,10 @@ pie_chart_2(
 \item{titre_1}{name of first table}
 
 \item{titre_2}{name of second table}
+
+\item{title_yes_no}{is title displayed}
+
+\item{dataframe}{dataframe as image}
 }
 \value{
 Several pie maps
