@@ -39,35 +39,35 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
   name2 <- dplyr::enquo(titre_2)
 
   all_class_i <- first %>% dplyr::group_by(across(c(dimension,
-                                                     "unit"))) %>%
-    dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0) %>% select(-value)
-  colnames(all_class_i) <- c("class", "unit")
-  all_class_i <- all_class_i %>% mutate(class = paste(class, unit, sep = " / "))
+                                                     "measurement_unit"))) %>%
+    dplyr::summarise(measurement_value = sum(measurement_value, na.rm = TRUE)) %>% filter(measurement_value != 0) %>% select(-measurement_value)
+  colnames(all_class_i) <- c("class", "measurement_unit")
+  all_class_i <- all_class_i %>% mutate(class = paste(class, measurement_unit, sep = " / "))
   provisoire_i <- na.omit(first) %>% dplyr::group_by(dplyr::across(c(dimension,
-                                                                     "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-    dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
+                                                                     "measurement_unit"))) %>% dplyr::summarise(measurement_value = sum(measurement_value, na.rm = TRUE)) %>%
+    dplyr::group_by(measurement_unit) %>% dplyr::arrange(desc(measurement_value)) %>%
     dplyr::mutate(id = row_number()) %>% dplyr::mutate(class = as.factor(ifelse(id <
                                                                                   topn,!!rlang::sym(dimension), "Others"))) %>% dplyr::group_by(class,
-                                                                                                                                                unit) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-    dplyr::ungroup() %>% dplyr::select(value, class, unit) %>%
-    dplyr::group_by(unit) %>% dplyr::mutate(pourcentage = prop.table(value) *
+                                                                                                                                                measurement_unit) %>% dplyr::summarise(measurement_value = sum(measurement_value, na.rm = TRUE)) %>%
+    dplyr::ungroup() %>% dplyr::select(measurement_value, class, measurement_unit) %>%
+    dplyr::group_by(measurement_unit) %>% dplyr::mutate(pourcentage = prop.table(measurement_value) *
                                               100) %>% dplyr::mutate(labels = paste0(pourcentage,
                                                                                      " ", " % ")) %>% dplyr::arrange(desc(class)) %>% dplyr::mutate(ypos_ligne = cumsum(pourcentage) -
                                                                                                                                                       0.5 * pourcentage) %>% dplyr::distinct() %>% dplyr::filter(!is.na(class))
   if (!is.null(second)) {
     all_class_t <- first %>% dplyr::group_by(across(c(dimension,
-                                                      "unit"))) %>%
-      dplyr::summarise(value = sum(value, na.rm = TRUE)) %>% filter(value != 0) %>% select(-value)
-    colnames(all_class_t) <- c("class", "unit")
-    all_class_t <- all_class_t %>% mutate(class = paste(class, unit, sep = " / "))
+                                                      "measurement_unit"))) %>%
+      dplyr::summarise(measurement_value = sum(measurement_value, na.rm = TRUE)) %>% filter(measurement_value != 0) %>% select(-measurement_value)
+    colnames(all_class_t) <- c("class", "measurement_unit")
+    all_class_t <- all_class_t %>% mutate(class = paste(class, measurement_unit, sep = " / "))
     provisoire_t <- na.omit(second) %>% dplyr::group_by(across(c(dimension,
-                                                                 "unit"))) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-      dplyr::group_by(unit) %>% dplyr::arrange(desc(value)) %>%
+                                                                 "measurement_unit"))) %>% dplyr::summarise(measurement_value = sum(measurement_value, na.rm = TRUE)) %>%
+      dplyr::group_by(measurement_unit) %>% dplyr::arrange(desc(measurement_value)) %>%
       dplyr::mutate(id = row_number()) %>% dplyr::mutate(class = as.factor(ifelse(id <
                                                                                     topn, !!rlang::sym(dimension), "Others"))) %>% dplyr::group_by(class,
-                                                                                                                                                   unit) %>% dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-      dplyr::ungroup() %>% dplyr::select(value, class,
-                                         unit) %>% dplyr::group_by(unit) %>% dplyr::mutate(pourcentage = prop.table(value) *
+                                                                                                                                                   measurement_unit) %>% dplyr::summarise(measurement_value = sum(measurement_value, na.rm = TRUE)) %>%
+      dplyr::ungroup() %>% dplyr::select(measurement_value, class,
+                                         measurement_unit) %>% dplyr::group_by(measurement_unit) %>% dplyr::mutate(pourcentage = prop.table(measurement_value) *
                                                                                              100) %>% dplyr::mutate(labels = paste0(pourcentage,
                                                                                                                                     " ", " % ")) %>% dplyr::arrange(desc(class)) %>%
       dplyr::mutate(ypos_ligne = cumsum(pourcentage) -
@@ -111,8 +111,8 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                                                                                          y = ypos_ligne/100, label = paste0(round(pourcentage),
                                                                                                                                                                                             "%")), color = "black") + theme(axis.ticks.x = element_blank(),
                                                                                                                                                                                                                             axis.text.x = element_blank()) + labs(x = "", y = "") +
-    scale_fill_manual(values = pal) + guides(fill = guide_legend(title = toupper(r))) +
-    facet_wrap("unit") + scale_fill_discrete(na.translate = F)
+    scale_fill_manual(measurement_values = pal) + guides(fill = guide_legend(title = toupper(r))) +
+    facet_wrap("measurement_unit") + scale_fill_discrete(na.translate = F)
   if (!is.null(second)) {
     to_get_legend <- ggplot(rbind(provisoire_i %>% dplyr::filter(!is.na(class)),
                                   provisoire_t %>% dplyr::filter(!is.na(class)))) +
@@ -128,15 +128,15 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                                            round)), size = 3, aes(x = 1, y = ypos_ligne/100,
                                                                                                                                   label = paste0(round(pourcentage), "%")), color = "black") +
       theme(axis.ticks.x = element_blank(), axis.text.x = element_blank()) +
-      labs(x = "", y = "") + scale_fill_manual(values = pal) +
-      theme(legend.position = "none") + facet_wrap("unit") +
+      labs(x = "", y = "") + scale_fill_manual(measurement_values = pal) +
+      theme(legend.position = "none") + facet_wrap("measurement_unit") +
       scale_fill_discrete(na.translate = F)
   }
   else {
     legend <- cowplot::get_legend(ggplot_i + scale_fill_discrete(na.translate = F))
   }
   if(title_yes_no){
-  title <- ggdraw() + draw_label(paste0("Distribution in value for the dimension : ",
+  title <- ggdraw() + draw_label(paste0("Distribution in measurement_value for the dimension : ",
                                         r), fontface = "bold", x = 0, hjust = 0) + theme(plot.margin = margin(0,
                                                                                                               0, 0, 7))
   }
@@ -153,7 +153,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                         legend, ncol = 2), rel_heights = c(0.1, 1)) + theme(plot.background = element_rect(color = "black"))
     if (sum(!(round(provisoire_i$pourcentage) == round(provisoire_t$pourcentage))) ==
         0) {
-      title <- ggdraw() + draw_label(paste0("Distribution in value for the dimension : ",
+      title <- ggdraw() + draw_label(paste0("Distribution in measurement_value for the dimension : ",
                                             r, "\n(same distribution to the nearest rounding for both datasets : \n",
                                             gsub("\"", "", gsub("~\"",
                                                                 "", deparse(substitute(name1))))," and \n", gsub("\"",
