@@ -111,7 +111,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                                                                                          y = ypos_ligne/100, label = paste0(round(pourcentage),
                                                                                                                                                                                             "%")), color = "black") + theme(axis.ticks.x = element_blank(),
                                                                                                                                                                                                                             axis.text.x = element_blank()) + labs(x = "", y = "") +
-    scale_fill_manual(measurement_values = pal) + guides(fill = guide_legend(title = toupper(r))) +
+    scale_fill_manual(values = pal) + guides(fill = guide_legend(title = toupper(r))) +
     facet_wrap("measurement_unit") + scale_fill_discrete(na.translate = F)
   if (!is.null(second)) {
     to_get_legend <- ggplot(rbind(provisoire_i %>% dplyr::filter(!is.na(class)),
@@ -128,7 +128,7 @@ pie_chart_2 =function (dimension, first, second = NULL, topn = 4, titre_1 = "fir
                                                                                                            round)), size = 3, aes(x = 1, y = ypos_ligne/100,
                                                                                                                                   label = paste0(round(pourcentage), "%")), color = "black") +
       theme(axis.ticks.x = element_blank(), axis.text.x = element_blank()) +
-      labs(x = "", y = "") + scale_fill_manual(measurement_values = pal) +
+      labs(x = "", y = "") + scale_fill_manual(values = pal) +
       theme(legend.position = "none") + facet_wrap("measurement_unit") +
       scale_fill_discrete(na.translate = F)
   }
